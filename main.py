@@ -11,8 +11,28 @@ mbti_types = [
     "ISTP","ISFP","ESTP","ESFP"
 ]
 
-# 예시 궁합 데이터 (랜덤 선택용)
-compatibility_texts = [
+# MBTI 간단 성향 설명
+mbti_descriptions = {
+    "INTJ": "전략적인 사고와 계획을 중시하는 완벽주의자.",
+    "INTP": "호기심 많고 창의적인 사색가.",
+    "ENTJ": "리더십이 강하고 결단력 있는 지휘관.",
+    "ENTP": "새로운 아이디어를 사랑하는 발명가.",
+    "INFJ": "깊은 통찰력과 배려심을 지닌 이상주의자.",
+    "INFP": "감성적이고 가치 중심적인 중재자.",
+    "ENFJ": "타인을 이끄는 카리스마 있는 사회 지도자.",
+    "ENFP": "열정적이고 자유로운 영혼.",
+    "ISTJ": "책임감 있고 신뢰할 수 있는 관리자.",
+    "ISFJ": "헌신적이고 세심한 수호자.",
+    "ESTJ": "실용적이고 조직적인 리더.",
+    "ESFJ": "사교적이고 친절한 협력가.",
+    "ISTP": "문제 해결에 능한 현실주의자.",
+    "ISFP": "감각적이고 자유로운 예술가.",
+    "ESTP": "모험을 즐기는 실용주의자.",
+    "ESFP": "사람들을 즐겁게 하는 분위기 메이커."
+}
+
+# 궁합 결과 예시 데이터
+compatibility_levels = [
     ("💖 최고의 궁합!", "서로의 장단점을 보완하며 함께 성장하는 환상의 조합이에요!"),
     ("💞 좋은 궁합!", "함께 있으면 웃음이 끊이지 않는 사이가 될 수 있어요."),
     ("🌸 무난한 궁합", "큰 갈등 없이 조화롭게 지낼 수 있는 관계입니다."),
@@ -29,6 +49,15 @@ cute_images = [
     "https://i.ibb.co/F6gr3gH/cute-bunny.gif"
 ]
 
+# 관계 발전 팁
+relationship_tips = [
+    "서로의 차이를 존중하면 관계가 더 단단해져요.",
+    "대화 습관(직접/간접), 계획성, 감정 표현 방식을 이해해보세요.",
+    "갈등이 생기면 감정을 가라앉히고 차분히 이야기해보세요.",
+    "공통 관심사를 찾아 함께 시간을 보내세요.",
+    "서로의 장점을 칭찬하고 자주 표현하세요."
+]
+
 # ---------------------------
 # 2. 페이지 설정
 # ---------------------------
@@ -40,70 +69,47 @@ st.set_page_config(page_title="MBTI 궁합 테스트", page_icon="💖", layout=
 st.markdown(
     """
     <style>
-    :root {
-        --accent-1: #ff4d88;
-        --accent-2: #ff80aa;
-        --panel-bg: rgba(255, 240, 245, 0.9);
-        --shadow: rgba(255, 182, 193, 0.35);
-    }
     .stApp {
-        background: linear-gradient(120deg, #fff0f7, #e6f7ff);
+        background: linear-gradient(135deg, #fff0f7 0%, #e6f7ff 100%);
         font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
     }
     .title {
         text-align: center;
-        font-size: 48px;
+        font-size: 50px;
         font-weight: 800;
-        color: var(--accent-1);
+        color: #ff4d88;
         text-shadow: 2px 2px #ffd6e7;
-        margin-top: 10px;
-        margin-bottom: 6px;
+        margin-top: 5px;
+        margin-bottom: 8px;
     }
     .subtitle {
         text-align: center;
         font-size: 18px;
-        color: var(--accent-2);
-        margin-bottom: 30px;
-    }
-    .card {
-        background: var(--panel-bg);
-        padding: 20px;
-        border-radius: 18px;
-        box-shadow: 0px 8px 24px var(--shadow);
+        color: #ff80aa;
+        margin-bottom: 40px;
     }
     .result-box {
-        background: linear-gradient(180deg, #fff7fb, #fff0f7);
-        padding: 18px;
-        border-radius: 16px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+        padding: 20px;
+        border-radius: 18px;
         text-align: center;
-        margin-top: 14px;
+        margin-top: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.06);
     }
     .score {
-        font-size: 34px;
+        font-size: 38px;
         font-weight: 800;
-        color: #ff2e6d;
         margin-bottom: 6px;
     }
     .desc {
-        font-size: 16px;
-        color: #ff6f9a;
+        font-size: 17px;
         margin-bottom: 12px;
     }
-    .mbti-select {
-        font-weight: 700;
-    }
-    /* 버튼 스타일 (경미한 커스터마이즈) */
-    .stButton>button {
-        background: linear-gradient(90deg, #ff8ab8, #ff5a94);
-        color: white;
-        border: none;
-        padding: 10px 18px;
-        border-radius: 12px;
-        font-weight: 700;
-    }
-    .stButton>button:hover {
-        filter: brightness(1.03);
+    .tip-box {
+        background: #fff7fc;
+        border-left: 6px solid #ff99bb;
+        padding: 12px;
+        border-radius: 10px;
+        margin-top: 12px;
     }
     </style>
     """,
@@ -114,57 +120,63 @@ st.markdown(
 # 4. UI
 # ---------------------------
 st.markdown("<div class='title'>💌 MBTI 궁합 테스트 💌</div>", unsafe_allow_html=True)
-st.markdown("<div class='subtitle'>귀여운 디자인으로 나와 상대의 성향 궁합을 확인해보세요 — 재미로만 이용해주세요!</div>", unsafe_allow_html=True)
+st.markdown("<div class='subtitle'>화려하게 알려주는 나와 상대의 성향 궁합 — 재미로 즐겨보세요!</div>", unsafe_allow_html=True)
 
-with st.container():
-    st.markdown("<div class='card'>", unsafe_allow_html=True)
-    col1, col2 = st.columns([1,1], gap="large")
-    with col1:
-        user_mbti = st.selectbox("💗 나의 MBTI", mbti_types, key="user_mbti")
-    with col2:
-        partner_mbti = st.selectbox("💗 상대방 MBTI", mbti_types, key="partner_mbti")
-    st.markdown("</div>", unsafe_allow_html=True)
+col1, col2 = st.columns(2)
+with col1:
+    user_mbti = st.selectbox("💗 나의 MBTI", mbti_types)
+with col2:
+    partner_mbti = st.selectbox("💗 상대방 MBTI", mbti_types)
 
 # ---------------------------
 # 5. 결과 버튼
 # ---------------------------
 if st.button("궁합 확인하기 💕"):
-    # 간단한 '랜덤+조금 의미있는' 연출:
-    # 같은 유형이면 조금 더 높은 점수, 비슷한 1~2글자 일치하면 보정 등
-    base_score = random.randint(65, 95)
+    # 점수 계산
+    base_score = random.randint(60, 95)
     if user_mbti == partner_mbti:
         base_score = min(100, base_score + 5)
-    # 같은 외향/내향 (첫글자) 보정
     if user_mbti[0] == partner_mbti[0]:
         base_score = min(100, base_score + 3)
-    # 같은 판단/인식 (세번째 글자: T/F or J/P) 보정
     if user_mbti[2] == partner_mbti[2]:
         base_score = min(100, base_score + 2)
 
-    score_text, desc_text = random.choice(compatibility_texts)
+    # 결과 선택
+    score_text, desc_text = random.choice(compatibility_levels)
     img_url = random.choice(cute_images)
+    tip = random.choice(relationship_tips)
 
-    st.markdown("<div class='result-box'>", unsafe_allow_html=True)
-    st.markdown(f"<div class='score'>{score_text} — {base_score}%</div>", unsafe_allow_html=True)
-    st.markdown(f"<div class='desc'>{desc_text}</div>", unsafe_allow_html=True)
-    # 변경된 부분: use_container_width 사용 (deprecated된 use_column_width 대신)
-    st.image(img_url, use_container_width=True)
-    st.markdown("</div>", unsafe_allow_html=True)
+    # 점수에 따라 카드 색상 변경
+    if base_score >= 85:
+        card_color = "#ffe6f0"
+    elif base_score >= 70:
+        card_color = "#fff0f7"
+    else:
+        card_color = "#f0f7ff"
 
-    # 추가: 간단 팁 카드
+    # 궁합 결과 박스
     st.markdown(
-        """
-        <div style="margin-top:10px;border-radius:12px;padding:12px;background:linear-gradient(90deg,#fff7fc,#fff1f6);box-shadow:0 6px 18px rgba(255,182,193,0.18)">
-        <strong>✨ 궁합 팁</strong>
-        <ul style="margin-top:8px;">
-            <li>서로의 차이를 존중하면 관계가 더 단단해져요.</li>
-            <li>대화 습관(직접/간접), 계획성, 감정 표현 방식을 이해해보세요.</li>
-            <li>이 앱은 참고용이에요 — 실제 관계는 더 복잡합니다!</li>
-        </ul>
+        f"""
+        <div class='result-box' style='background:{card_color}'>
+            <div class='score'>{score_text} — {base_score}%</div>
+            <div class='desc'>{desc_text}</div>
         </div>
         """,
         unsafe_allow_html=True
     )
+    st.image(img_url, use_container_width=True)
+
+    # MBTI 성향 설명
+    st.subheader("📌 MBTI 성향")
+    col3, col4 = st.columns(2)
+    with col3:
+        st.markdown(f"**나 ({user_mbti})**: {mbti_descriptions[user_mbti]}")
+    with col4:
+        st.markdown(f"**상대 ({partner_mbti})**: {mbti_descriptions[partner_mbti]}")
+
+    # 관계 팁
+    st.subheader("💡 관계 발전 팁")
+    st.markdown(f"<div class='tip-box'>✨ {tip}</div>", unsafe_allow_html=True)
 
 st.markdown("---")
-st.caption("※ 이 테스트는 재미용이며, 실제 성향과 다를 수 있습니다.")
+st.caption("※ 이 테스트는 과학적 근거가 없는 재미용입니다.")
