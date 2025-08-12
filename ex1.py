@@ -1,2 +1,2 @@
 import streamlit as st
-st.title('명옥's streamlit app')
+st.title("명옥's streamlit app")
