@@ -115,4 +115,4 @@ if st.session_state.game_over:
 
 # 자동 새로고침 (0.05초 간격)
 time.sleep(0.05)
-st.experimental_rerun()
+st.rerun()
