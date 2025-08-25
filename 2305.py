@@ -4,14 +4,15 @@ import time
 
 # -----------------------------
 # 게임 데이터: 쓰레기 종류와 정답 분류
+# (이미지는 안정적인 flaticon 링크 사용)
 # -----------------------------
 items = [
-    {"name": "페트병", "type": "recycle", "img": "https://upload.wikimedia.org/wikipedia/commons/5/57/Plastic_bottle_icon.png"},
-    {"name": "신문지", "type": "recycle", "img": "https://upload.wikimedia.org/wikipedia/commons/8/88/Newspaper_icon.png"},
-    {"name": "종이컵", "type": "trash", "img": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Paper_cup_icon.png"},
-    {"name": "바나나껍질", "type": "trash", "img": "https://upload.wikimedia.org/wikipedia/commons/4/46/Banana_icon.png"},
-    {"name": "유리병", "type": "recycle", "img": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Wine_bottle_icon.png"},
-    {"name": "스낵봉지", "type": "trash", "img": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Plastic_bag_icon.png"}
+    {"name": "페트병", "type": "recycle", "img": "https://cdn-icons-png.flaticon.com/512/1048/1048947.png"},
+    {"name": "신문지", "type": "recycle", "img": "https://cdn-icons-png.flaticon.com/512/2965/2965879.png"},
+    {"name": "종이컵", "type": "trash", "img": "https://cdn-icons-png.flaticon.com/512/3145/3145765.png"},
+    {"name": "바나나껍질", "type": "trash", "img": "https://cdn-icons-png.flaticon.com/512/590/590685.png"},
+    {"name": "유리병", "type": "recycle", "img": "https://cdn-icons-png.flaticon.com/512/1048/1048948.png"},
+    {"name": "스낵봉지", "type": "trash", "img": "https://cdn-icons-png.flaticon.com/512/4151/4151050.png"}
 ]
 
 # -----------------------------
@@ -50,9 +51,10 @@ else:
         st.write(f"⏱ 남은 시간: {remaining}초")
         st.write(f"현재 점수: {st.session_state.score}")
 
+        # 현재 아이템 보여주기
         item = st.session_state.current_item
         st.image(item["img"], width=150)
-        st.write(f"👉 이것은 **{item['name']}** 입니다. 분리수거는?")
+        st.subheader(f"👉 이것은 **{item['name']}** 입니다. 분리수거는?")
 
         col1, col2 = st.columns(2)
         with col1:
